@@ -1,0 +1,26 @@
+[
+    {
+        "property": "uc.urlbar-in-context.show-kbd-hint",
+        "label": "🔍 Show 'URL Bar · Ctrl+L' hint at the top of toolbar right-click menu (recommended, enabled by default)",
+        "type": "checkbox",
+        "defaultValue": "true"
+    },
+    {
+        "property": "uc.urlbar-in-context.show-in-page-menu",
+        "label": "🌐 Show 'URL Bar · Ctrl+L' hint in page (content area) right-click menu",
+        "type": "checkbox",
+        "defaultValue": "false"
+    },
+    {
+        "property": "uc.urlbar-in-context.show-in-tabmenu",
+        "label": "📑 Show 'URL Bar · Ctrl+L' hint in tab right-click menu",
+        "type": "checkbox",
+        "defaultValue": "false"
+    },
+    {
+        "property": "uc.urlbar-in-context.float-sidebar-urlbar",
+        "label": "📌 Always show the sidebar URL bar (useful in compact mode or when top toolbar is hidden)",
+        "type": "checkbox",
+        "defaultValue": "false"
+    }
+]

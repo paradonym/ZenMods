@@ -1,0 +1,20 @@
+{
+    "id": "ecc5d5c9-d118-4374-8c81-b7e61fabaad0",
+    "name": "Zen Context URL Bar",
+    "description": "Adds a URL bar shortcut hint and sidebar URL bar controls to the right-click context menu",
+    "homepage": "https://github.com/paradonym/ZenMods/",
+    "style": "https://raw.githubusercontent.com/paradonym/ZenMods/main/Zen-context-urlbar/chrome.css",
+    "readme": "https://raw.githubusercontent.com/paradonym/ZenMods/main/Zen-context-urlbar/readme.md",
+    "image": "https://raw.githubusercontent.com/paradonym/ZenMods/main/Zen-context-urlbar/image.png",
+    "author": "paradonym",
+    "version": "1.0.0",
+    "preferences": "https://raw.githubusercontent.com/paradonym/ZenMods/main/Zen-context-urlbar/preferences.json",
+    "tags": [
+        "context menu",
+        "urlbar",
+        "address bar",
+        "toolbar"
+    ],
+    "createdAt": "2026-06-07",
+    "updatedAt": "2026-06-07"
+}

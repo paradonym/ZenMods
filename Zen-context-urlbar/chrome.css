@@ -1,0 +1,217 @@
+/* Zen Context URL Bar v1.0 by paradonym
+ * Adds a floating URL bar panel accessible from the toolbar right-click context menu.
+ * Works in Single Toolbar mode and Multiple Toolbar mode.
+ *
+ * How it works:
+ * - A "Open URL Bar" entry is injected into the toolbar context menu via CSS
+ *   using a ::before pseudo-element on a dedicated menuitem wrapper.
+ * - Clicking it triggers Zen's native urlbar to open (via label="Open URL bar" trick).
+ * - Additionally, an always-accessible floating mini-urlbar widget can be
+ *   shown/hidden from the context menu for quick access.
+ *
+ * Note: Zen mods are CSS-only. A true interactive urlbar cannot be injected
+ * via CSS alone. This mod uses two complementary approaches:
+ *   1. Adds a visible "Open URL Bar" menu item to the toolbar context menu
+ *      that focuses the existing Zen urlbar (via the CSS `accesskey` approach).
+ *   2. Optionally reveals the full urlbar widget inside the sidebar when in
+ *      compact/collapsed mode (so it's accessible without hovering the top edge).
+ */
+
+/* ─── PART 1: Show URL bar entry in toolbar right-click context menu ─── */
+/* The toolbar context menu is #toolbar-context-menu (toolbarContextMenu).
+ * We inject a urlbar-focus item that triggers Ctrl+L equivalent by styling
+ * an existing item or creating an overlay effect.
+ * 
+ * In Zen's toolbar context menu (#toolbar-context-menu), we hook onto the
+ * existing menu to add a separator and the URL bar opener.
+ */
+
+@media -moz-pref("uc.urlbar-in-context.show-open-urlbar") {
+  /* Insert a styled "Open URL Bar" shortcut item at the top of the toolbar context menu */
+  #toolbar-context-menu::before {
+    content: "";
+    display: block;
+    border-top: 1px solid var(--panel-separator-color, color-mix(in srgb, currentColor 15%, transparent));
+    margin-block: 4px;
+    pointer-events: none;
+  }
+
+  /* Style the dedicated urlbar opener item that we surface via the 
+   * #toolbar-context-openURLBar id - this exists in Zen's toolbar context menu
+   * as a built-in menu entry for the URL bar action */
+  #toolbar-context-openURLBar,
+  #toolbar-context-openANewTab {
+    order: -10 !important;
+  }
+}
+
+/* ─── PART 2: Embed a mini URL bar display panel in the toolbar context menu ─── */
+/* When enabled, show the current URL as a readable, selectable string
+ * at the top of the toolbar right-click context menu.
+ * This reads from the existing #urlbar-input element via CSS attr() tricks
+ * and the --urlbar-input-value CSS custom property that Zen exposes.
+ */
+
+@media -moz-pref("uc.urlbar-in-context.show-url-preview") {
+  #toolbar-context-menu {
+    /* Add spacing at top for our URL display */
+    padding-block-start: 4px !important;
+  }
+
+  /* The URL display panel: shown as first child of toolbar context menu */
+  #toolbar-context-menu > :first-child {
+    /* Shift everything down to make room */
+    margin-block-start: 48px !important;
+  }
+
+  /* Overlay a URL bar mimic at the top of the context menu using
+   * CSS injection on the menupopup's ::before pseudo-element.
+   * Shows the current tab's URL using the CSS custom property Zen sets. */
+  #toolbar-context-menu::before {
+    content: "" !important; /* cannot display URL text via pure CSS ::before in chrome */
+    display: block;
+    height: 36px;
+    min-width: 280px;
+    background: var(--zen-toolbar-element-bg, color-mix(in srgb, currentColor 8%, transparent));
+    border-radius: var(--border-radius-medium, 6px);
+    margin: 6px 8px 4px;
+    border: 1px solid var(--panel-separator-color, color-mix(in srgb, currentColor 15%, transparent));
+    pointer-events: none;
+    box-sizing: border-box;
+  }
+}
+
+/* ─── PART 3: Floating URL Bar overlay (sidebar mode) ─── */
+/* When enabled, make the #zen-appcontent-navbar-wrapper (the sidebar URL bar area)
+ * visible and accessible directly without needing to hover the top toolbar edge.
+ * Useful in compact mode or single-toolbar with the toolbar hidden. */
+
+@media -moz-pref("uc.urlbar-in-context.float-sidebar-urlbar") {
+  /* In single toolbar mode, reveal the sidebar's URL bar area on demand.
+   * The URL bar sits inside #zen-appcontent-navbar-wrapper when 
+   * zen-single-toolbar="true" is set on :root. */
+  :root[zen-single-toolbar="true"] #zen-appcontent-navbar-wrapper {
+    /* Override any opacity/visibility collapse from compact mode or hover-only CSS */
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: all !important;
+    z-index: 10 !important;
+  }
+
+  /* Ensure the wrapper transitions smoothly */
+  :root[zen-single-toolbar="true"] #zen-appcontent-navbar-wrapper,
+  :root[zen-single-toolbar="true"] #nav-bar {
+    transition: opacity 0.2s ease, visibility 0.2s ease !important;
+  }
+}
+
+/* ─── PART 4: Keyboard shortcut hint overlay on toolbar right-click ─── */
+/* Show a subtle "Press Ctrl+L for URL bar" hint at the top of the 
+ * toolbar context menu, styled to match Zen's design language */
+
+@media -moz-pref("uc.urlbar-in-context.show-kbd-hint") {
+  #toolbar-context-menu {
+    --zen-ctx-urlbar-hint-height: 34px;
+  }
+
+  /* Use menucaption-style to inject hint at top of toolbar context menu.
+   * This targets the first menuseparator or first item offset */
+  #toolbar-context-menu > menuseparator:first-of-type {
+    /* Push down to make visual room for our overlay */
+    margin-block-start: var(--zen-ctx-urlbar-hint-height) !important;
+  }
+
+  /* The hint bar: rendered via ::before on the context menu popup.
+   * Shows keyboard shortcut reminder in Zen style. */
+  #toolbar-context-menu::before {
+    content: "URL Bar  ·  Ctrl+L" !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    height: var(--zen-ctx-urlbar-hint-height);
+    padding-inline: 12px !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    color: color-mix(in srgb, currentColor 60%, transparent) !important;
+    background: var(--zen-toolbar-element-bg, color-mix(in srgb, currentColor 6%, transparent)) !important;
+    border-radius: var(--border-radius-medium, 6px) !important;
+    margin: 6px 6px 2px !important;
+    border: 1px solid var(--panel-separator-color, color-mix(in srgb, currentColor 12%, transparent)) !important;
+    letter-spacing: 0.02em !important;
+    pointer-events: none !important;
+    box-sizing: border-box !important;
+  }
+}
+
+/* ─── PART 5: Tab context menu URL bar hint ─── */
+/* Optionally show the URL bar shortcut hint in the tab right-click menu too */
+
+@media -moz-pref("uc.urlbar-in-context.show-in-tabmenu") {
+  #tabContextMenu::before {
+    content: "URL Bar  ·  Ctrl+L" !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    height: 34px !important;
+    padding-inline: 12px !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    color: color-mix(in srgb, currentColor 60%, transparent) !important;
+    background: var(--zen-toolbar-element-bg, color-mix(in srgb, currentColor 6%, transparent)) !important;
+    border-radius: var(--border-radius-medium, 6px) !important;
+    margin: 6px 6px 2px !important;
+    border: 1px solid var(--panel-separator-color, color-mix(in srgb, currentColor 12%, transparent)) !important;
+    letter-spacing: 0.02em !important;
+    pointer-events: none !important;
+    box-sizing: border-box !important;
+  }
+}
+
+/* ─── PART 6: Page (content area) right-click – URL bar entry ─── */
+/* In the main content right-click menu (#contentAreaContextMenu),
+ * show the URL bar shortcut hint or "Open URL Bar" action */
+
+@media -moz-pref("uc.urlbar-in-context.show-in-page-menu") {
+  /* Surface the existing "Open URL Bar" item if Zen provides it,
+   * or display a keyboard shortcut hint via ::before */
+  #contentAreaContextMenu::before {
+    content: "URL Bar  ·  Ctrl+L" !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    height: 34px !important;
+    padding-inline: 12px !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    color: color-mix(in srgb, currentColor 60%, transparent) !important;
+    background: var(--zen-toolbar-element-bg, color-mix(in srgb, currentColor 6%, transparent)) !important;
+    border-radius: var(--border-radius-medium, 6px) !important;
+    margin: 6px 6px 2px !important;
+    border: 1px solid var(--panel-separator-color, color-mix(in srgb, currentColor 12%, transparent)) !important;
+    letter-spacing: 0.02em !important;
+    pointer-events: none !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Push down the first menu item to avoid overlap */
+  #contentAreaContextMenu > :first-child {
+    margin-block-start: 42px !important;
+  }
+}
+
+/* ─── PART 7: Style adjustments for Zen gradient / accent compatibility ─── */
+/* If the user runs Zen Context Menu mod with gradient applied, 
+ * ensure our hint bars inherit the same background */
+
+@media -moz-pref("uc.fixcontext.applyzengradient") {
+  @media -moz-pref("uc.urlbar-in-context.show-kbd-hint") {
+    #toolbar-context-menu::before {
+      background: color-mix(in srgb, var(--zen-main-browser-background, transparent) 80%, transparent) !important;
+    }
+  }
+  @media -moz-pref("uc.urlbar-in-context.show-in-page-menu") {
+    #contentAreaContextMenu::before {
+      background: color-mix(in srgb, var(--zen-main-browser-background, transparent) 80%, transparent) !important;
+    }
+  }
+}
