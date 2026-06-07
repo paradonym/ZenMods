@@ -1,6 +1,6 @@
-THIS IS AI! Untested work in Progress. Used Model:  Perplexity Computer work time approx. 6 minutes.
+# THIS IS AI! Untested work in Progress. Used Model:  Perplexity Computer work time approx. 6 minutes.
 
-# ZenMods by paradonym
+## ZenMods by paradonym
 
 Zen Browser mods. See individual mod folders for details.
 
