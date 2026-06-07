@@ -1,5 +1,7 @@
 # THIS IS AI! Untested work in Progress. Used Model:  Perplexity Computer work time approx. 6 minutes.
 
+Human comment: In the end all it does is that there are visual clues to Ctrl+L in the context menu, instead of a fully functional context menu address bar.
+
 ## ZenMods by paradonym
 
 Zen Browser mods. See individual mod folders for details.
