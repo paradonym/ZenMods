@@ -57,7 +57,7 @@ uc.urlbar-in-context.show-in-tabmenu	Hint in tab right-click
 uc.urlbar-in-context.float-sidebar-urlbar	Always-visible sidebar URL bar
 You don't need to restart — @media -moz-pref() toggles are live.
 
-#### How to publish to the Zen Theme Store
+### How to publish to the Zen Theme Store
 Add a real screenshot (image.png, must be PNG) — replace the placeholder in the repo. A screenshot of the context menu with the hint bar visible is ideal.
 
 Submit via GitHub Issue on zen-browser/theme-store with:
