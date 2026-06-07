@@ -1,6 +1,6 @@
 # THIS IS AI! Untested work in Progress. Used Model:  Perplexity Computer work time approx. 6 minutes.
 
-Human comment: In the end all it does is that there are visual clues to Ctrl+L in the context menu, instead of a fully functional context menu address bar.
+Human comment: In the end all it does is that there are visual clues to Ctrl+L in the context menu, instead of a fully functional context menu address bar. The explaination why a fully functional context menu adress bar isn't possible with Zen Mods is given by the AI. The prompt to the AI limited the work area to Zen Mod possibilities.
 
 ## ZenMods by paradonym
 
