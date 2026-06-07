@@ -11,7 +11,7 @@ Zen Browser mods. See individual mod folders for details.
 
 ## AI Explaination output
 
-What the mod does
+### What the mod does
 Since Zen Mods are CSS-only (they inject into userChrome.css, no JS), a fully interactive URL bar inside a context menu is not possible — Firefox's XUL context menu can't host live input widgets via CSS. Instead, the mod takes the most useful approach possible:
 
 Toolbar right-click (default on): shows a styled "URL Bar · Ctrl+L" chip at the top of the menu — same visual language as the sidebar address bar, acts as a persistent shortcut reminder
@@ -20,8 +20,8 @@ Page/Tab right-click (optional): same hint in other menus
 
 Always-visible sidebar URL bar (optional): keeps the compact sidebar address bar permanently shown in single-toolbar/compact mode, bypassing the need to hover the top edge — this is the feature closest to "bringing the sidebar address bar to you"
 
-How to test it locally
-Method 1 — Direct file install (fastest for testing):
+### How to test it locally
+#### Method 1 — Direct file install (fastest for testing):
 
 Open Zen Browser → go to about:support
 
@@ -41,13 +41,13 @@ Restart Zen Browser
 
 Right-click the toolbar — you should see the URL bar hint at the top
 
-Method 2 — Load as a local Zen Mod:
+#### Method 2 — Load as a local Zen Mod:
 
 Go to Settings → Zen Mods → Load from file (if that option exists in your Zen version)
 
 Point it at theme.json from the repo
 
-Method 3 — Test via about:config toggles:
+#### Method 3 — Test via about:config toggles:
 Once the CSS is active, open about:config and set these booleans to toggle features:
 
 Pref	Effect
@@ -57,7 +57,7 @@ uc.urlbar-in-context.show-in-tabmenu	Hint in tab right-click
 uc.urlbar-in-context.float-sidebar-urlbar	Always-visible sidebar URL bar
 You don't need to restart — @media -moz-pref() toggles are live.
 
-How to publish to the Zen Theme Store
+#### How to publish to the Zen Theme Store
 Add a real screenshot (image.png, must be PNG) — replace the placeholder in the repo. A screenshot of the context menu with the hint bar visible is ideal.
 
 Submit via GitHub Issue on zen-browser/theme-store with:
